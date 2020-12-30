@@ -1,68 +1,49 @@
-//20201229
-//분할정복
-//백준 1992
-//쿼드 트리
-//참고: https://developer-mac.tistory.com/37
+//20201230
+//그리디
+//백준 11399
 
-import java.io.*;
+//인출에 소요되는 시간이 적은 순서대로 값을 찾고 계산값을 구한다.
+import java.util.*;
 public class p11 {
-	private static int n,m;
-	private static int arr [][];
-	
-	public static boolean check(int w, int h, int nn) { //해당 구역이 모두 0인지 1인지 확인
-		int first = arr[w][h]; //숫자 비교 기준
-		
-		for(int i=w; i<w+nn; i++) {
-			for(int j=h; j<h+nn; j++) {
-				if(arr[i][j] != first) {
-					return false;
-				}
-			}
-		}
-		m=first;
-		return true;
-	}
 
-	public static void decompose(int w, int h, int nn) {
-		if(check(w, h, nn))
-			System.out.print(m);
-		else {
-			System.out.print("(");
-			int s = nn/2;
-			
-			//n은 2의 제곱수
-			for(int i=0; i<2; i++) {
-				for(int j=0; j<2; j++) {
-					decompose(w+s*i, h+s*j, s);
-				}
-			
-			}
-			System.out.print(")");
-		}
-		
-		
-		
-		
-	}
-	
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		Scanner sc = new Scanner(System.in);
 		
+		int num = sc.nextInt();
+		int arr [] = new int[num];
 		
-		n = Integer.parseInt(br.readLine()); //영상의 크기 표시 (nXn) (2의 제곱수)
-		arr = new int [n][n]; //0,1 저장할 배열
-		
-		for(int i=0; i<n; i++) {
-			String str = br.readLine();
-			for(int j=0; j<n; j++) {
-				arr[i][j]=str.charAt(j)-'0'; //0,1 저장
-			}
+		for(int i=0; i<num; i++) {
+			arr[i]= sc.nextInt();
 		}
 		
-		decompose(0,0,n);
-
 		
+		
+		for(int i=0; i<num; i++) {
+			for(int j=i+1; j<num; j++) {
+				int min= arr[i];
+				if(min>arr[j]) {
+					min=arr[j];
+					
+					int temp = arr[i];
+					arr[i]=min;
+					min = arr[j];
+					arr[j]=temp;
+				}
+				
+				
+			}
+		}
+		sc.close();
+		
+		int sum=0;
+		int fsum=0;
+		for(int i=0; i<num; i++) {
+			sum +=arr[i];
+			fsum +=sum;
+		}
+		
+		System.out.println(fsum);
 	}
 
 }
